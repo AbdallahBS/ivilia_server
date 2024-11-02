@@ -5,8 +5,11 @@ const sequelize = require('./db/database')  // Import the database connection po
 const travelDestinationRoutes = require('./routes/travelDestinationRoutes');
 const cors = require('cors');
 const reservationRoutes = require('./routes/reservationRoutes'); // Adjust the path as necessary
+const adminReservationRoutes = require('./routes/adminReservationRoutes');
+const userRoutes = require('./routes/userRoutes');
+require('./models/associations'); // Import associations after models are loaded
 
-// Define the port to run the server on
+
 
 // Middleware to parse JSON data
 app.use(express.json());
@@ -16,8 +19,9 @@ app.get('/', (req, res) => {
   res.send('Hello, World! Welcome to my Node.js server.');
 });
 app.use('/api/travel-destination', travelDestinationRoutes);
-
+app.use('/api/users', userRoutes);
 app.use('/api/reservations', reservationRoutes);
+app.use('/api/admin/reservations', adminReservationRoutes);
 
 const startServer = async () => {
     try {

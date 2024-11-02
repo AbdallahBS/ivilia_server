@@ -1,4 +1,3 @@
-// models/Reservation.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/database'); // Adjust this path as necessary
 
@@ -14,6 +13,11 @@ const Reservation = sequelize.define('Reservation', {
     place_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM('en attend', 'accepter', 'refuser'),
+        allowNull: false,
+        defaultValue: 'en attend',
     },
 }, {
     tableName: 'reservations',

@@ -8,5 +8,7 @@ router.post('/', reservationController.createReservation);
 
 // GET /api/reservations
 router.get('/', reservationController.getAllReservations);
+router.get('/by-email', reservationController.getReservationsByEmail);
+
 
 module.exports = router;
