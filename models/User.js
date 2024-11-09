@@ -1,4 +1,3 @@
-// models/User.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/database');
 
@@ -22,7 +21,14 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    // Other user fields as necessary
+    confirmationCode: {  // Field to store the confirmation code
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    isVerified: {  // Field to indicate verification status
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 }, {
     tableName: 'users',
     timestamps: true,

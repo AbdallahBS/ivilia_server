@@ -19,6 +19,14 @@ const Reservation = sequelize.define('Reservation', {
         allowNull: false,
         defaultValue: 'en attend',
     },
+    fromDate: {
+        type: DataTypes.DATE, // Change to DATE for storing date values
+        allowNull: false,
+    },
+    toDate: {
+        type: DataTypes.DATE, // Change to DATE for storing date values
+        allowNull: false,
+    },
 }, {
     tableName: 'reservations',
     timestamps: true,

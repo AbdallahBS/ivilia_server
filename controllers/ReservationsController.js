@@ -6,12 +6,12 @@ const User = require('../models/User'); // Assuming you have a User model
 
 // Function to create a reservation
 exports.createReservation = async (req, res) => {
-    const { username, password, place_id } = req.body;
-  console.log(username,password ,place_id);
-  
+    const { username, place_id, fromDate, toDate } = req.body; // Add fromDate and toDate to request body
+    console.log(username, place_id, fromDate, toDate); // Log new parameters
+    
     // Validate required fields
-    if (!username || !password || !place_id) {
-        return res.status(400).json({ message: 'username, password, and place ID are required.' });
+    if (!username || !place_id || !fromDate || !toDate) {
+        return res.status(400).json({ message: 'username, password, place ID, from date, and to date are required.' });
     }
 
     try {
@@ -19,15 +19,14 @@ exports.createReservation = async (req, res) => {
         const user = await User.findOne({
             where: {
                 username: username,
-                password: password,
+         
             },
             attributes: ['phone_number', 'email'],
-
         });
 
         // If user not found, return an error
         if (!user) {
-            return res.status(404).json({ message: 'Account not found. Please check your name and password.' });
+            return res.status(404).json({ message: 'Account not found. Please check your username and password.' });
         }
 
         // If user exists, create the reservation
@@ -35,16 +34,23 @@ exports.createReservation = async (req, res) => {
             phone_number: user.phone_number, // Get phone number from user
             email: user.email, // Get email from user
             place_id: place_id,
-             place_id });
-             console.log("done");
-             
-        return res.status(201).json({ message: 'Reservation created successfully!', reservation  ,user: { phone_number: user.phone_number, email: user.email }, });
+            fromDate: new Date(fromDate), // Store fromDate
+            toDate: new Date(toDate), // Store toDate
+        });
 
+        console.log("Reservation created successfully");
+        
+        return res.status(201).json({ 
+            message: 'Reservation created successfully!', 
+            reservation,
+            user: { phone_number: user.phone_number, email: user.email },
+        });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'An error occurred while creating the reservation.' });
     }
 };
+
 
 // Function to get all reservations
 exports.getAllReservations = async (req, res) => {
